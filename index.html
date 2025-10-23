@@ -23,38 +23,51 @@
 
         h1 {
             font-size: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             font-weight: 600;
             letter-spacing: 1px;
         }
 
-        .countdown {
+        .countdown-container {
             display: flex;
-            gap: 1rem;
-            font-size: 1.2rem;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .countdown div {
+        .countdown {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            padding: 1rem 1.5rem;
+            padding: 1.5rem;
             backdrop-filter: blur(6px);
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            min-width: 200px;
         }
 
-        .countdown span {
+        .countdown h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .time-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+
+        .time-box div span {
             display: block;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 600;
             color: #00ff99;
         }
 
         .message {
             display: none;
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #00ff99;
-            margin-top: 2rem;
+            margin-top: 1rem;
             animation: pulse 1.5s infinite;
         }
 
@@ -83,48 +96,75 @@
 
 <body>
 
-    <h1>Contagem Regressiva para a 1ª Parcela do 13º 💰</h1>
+    <h1>Contagem Regressiva para o 13º 💰</h1>
 
-    <div class="countdown" id="countdown">
-        <div><span id="days">00</span>Dias</div>
-        <div><span id="hours">00</span>Horas</div>
-        <div><span id="minutes">00</span>Min</div>
-        <div><span id="seconds">00</span>Seg</div>
+    <div class="countdown-container">
+
+        <div class="countdown" id="parcel1">
+            <h2>1ª Parcela</h2>
+            <div class="time-box">
+                <div><span id="days1">00</span>D</div>
+                <div><span id="hours1">00</span>H</div>
+                <div><span id="minutes1">00</span>M</div>
+                <div><span id="seconds1">00</span>S</div>
+            </div>
+            <div class="message" id="message1">1ª parcela na conta 💸</div>
+        </div>
+
+        <div class="countdown" id="parcel2">
+            <h2>2ª Parcela</h2>
+            <div class="time-box">
+                <div><span id="days2">00</span>D</div>
+                <div><span id="hours2">00</span>H</div>
+                <div><span id="minutes2">00</span>M</div>
+                <div><span id="seconds2">00</span>S</div>
+            </div>
+            <div class="message" id="message2">2ª parcela na conta 💸</div>
+        </div>
+
     </div>
-
-    <div class="message" id="message">Tá na conta 💸</div>
 
     <footer>Atualizado automaticamente</footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const countdownEl = document.getElementById("countdown");
-            const messageEl = document.getElementById("message");
-
-            // Data da primeira parcela
-            const targetDate = new Date("2025-11-30T00:00:00").getTime();
-
-            const interval = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-
-                if (distance <= 0) {
-                    clearInterval(interval);
-                    countdownEl.style.display = "none";
-                    messageEl.style.display = "block";
-                    return;
+            // Datas das parcelas
+            const parcels = [
+                {
+                    date: new Date("2025-11-30T00:00:00").getTime(), elements: {
+                        days: "days1", hours: "hours1", minutes: "minutes1", seconds: "seconds1", message: "message1", container: "parcel1"
+                    }
+                },
+                {
+                    date: new Date("2025-12-20T00:00:00").getTime(), elements: {
+                        days: "days2", hours: "hours2", minutes: "minutes2", seconds: "seconds2", message: "message2", container: "parcel2"
+                    }
                 }
+            ];
 
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            parcels.forEach(parcel => {
+                const interval = setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = parcel.date - now;
 
-                document.getElementById("days").textContent = days.toString().padStart(2, "0");
-                document.getElementById("hours").textContent = hours.toString().padStart(2, "0");
-                document.getElementById("minutes").textContent = minutes.toString().padStart(2, "0");
-                document.getElementById("seconds").textContent = seconds.toString().padStart(2, "0");
-            }, 1000);
+                    if (distance <= 0) {
+                        clearInterval(interval);
+                        document.getElementById(parcel.elements.container).querySelector(".time-box").style.display = "none";
+                        document.getElementById(parcel.elements.message).style.display = "block";
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById(parcel.elements.days).textContent = String(days).padStart(2, "0");
+                    document.getElementById(parcel.elements.hours).textContent = String(hours).padStart(2, "0");
+                    document.getElementById(parcel.elements.minutes).textContent = String(minutes).padStart(2, "0");
+                    document.getElementById(parcel.elements.seconds).textContent = String(seconds).padStart(2, "0");
+                }, 1000);
+            });
         });
     </script>
 
