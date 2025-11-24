@@ -108,19 +108,10 @@
                 <div><span id="minutes1">00</span>M</div>
                 <div><span id="seconds1">00</span>S</div>
             </div>
-            <div class="message" id="message1">1ª parcela na conta 💸</div>
+            <div class="message" id="message1">Ta na conta 💸</div>
         </div>
 
-        <div class="countdown" id="parcel2">
-            <h2>2ª Parcela</h2>
-            <div class="time-box">
-                <div><span id="days2">00</span>D</div>
-                <div><span id="hours2">00</span>H</div>
-                <div><span id="minutes2">00</span>M</div>
-                <div><span id="seconds2">00</span>S</div>
-            </div>
-            <div class="message" id="message2">2ª parcela na conta 💸</div>
-        </div>
+
 
     </div>
 
@@ -131,15 +122,11 @@
             // Datas das parcelas
             const parcels = [
                 {
-                    date: new Date("2025-11-30T00:00:00").getTime(), elements: {
+                    date: new Date("2025-11-28T00:00:00").getTime(), elements: {
                         days: "days1", hours: "hours1", minutes: "minutes1", seconds: "seconds1", message: "message1", container: "parcel1"
                     }
-                },
-                {
-                    date: new Date("2025-12-20T00:00:00").getTime(), elements: {
-                        days: "days2", hours: "hours2", minutes: "minutes2", seconds: "seconds2", message: "message2", container: "parcel2"
-                    }
                 }
+               
             ];
 
             parcels.forEach(parcel => {
